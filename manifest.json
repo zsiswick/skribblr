@@ -16,11 +16,9 @@
     "default_icon": "img/icon.png",
     "default_title": "A Chrome extension for annotating web pages"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://*/*", "http://*/*"],
-      "css": ["styles/css/skribblr.css"],
-      "js": ["node_modules/jquery/dist/jquery.min.js", "scripts/vendor/sketch.min.js"]
-    }
-  ]
+  "content_scripts": [{
+    "matches": ["https://*/*", "http://*/*"],
+    "css": ["styles/css/skribblr.css"],
+    "js": ["node_modules/jquery/dist/jquery.min.js", "node_modules/d3/d3.js"]
+  }]
 }

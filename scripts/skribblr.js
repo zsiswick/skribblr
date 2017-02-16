@@ -1,27 +1,14 @@
 /*jshint esversion: 6 */
 (function () {
-  'use strict';
-  console.log('inserting canvas into DOM...');
+  console.log('inserting svg into DOM...');
   var skribblrcanvasWrap = $('<div id="skribblrcanvasWrap"></div>');
   skribblrcanvasWrap.css({position:'absolute', left:'0px', top:'0px', width:'100%', height:'100%', 'z-index':'1000'});
   $('body').append(skribblrcanvasWrap);
-  var skribblrCanvas = $('<canvas id="skribblrCanvas"></canvas>');
-  skribblrCanvas.css({overflow:'visible',
-    position:'absolute',
-    left:'0px',
-    top:'0px',
-    width: skribblrcanvasWrap.innerWidth()+'px',
-    height: skribblrcanvasWrap.innerHeight()+'px'
-  });
-  skribblrCanvas.attr('width', skribblrcanvasWrap.innerWidth());
-  skribblrCanvas.attr('height', skribblrcanvasWrap.innerHeight());
-  $('#skribblrcanvasWrap').append(skribblrCanvas);
-  $('#skribblrCanvas').sketch({toolLinks:'true'});
 
   //TODO onResize event
 
 
-  //TODO tool events
+  //TODO tools
   var tools = $(`<div class="skrb-tools-wrap"><div class="skrb-tools">
       <a href="#skribblrCanvas" data-download="png" style="float: right">Download</a>
       <a href="#skribblrCanvas" data-color="#f00" style="background: #f00;">&nbsp;</a>
@@ -48,5 +35,53 @@
   //     console.log('you pressed +');
   //   }
   // });
+
+
+  /**
+   * D3 Skribble
+   */
+
+  // Globals
+  var dragging = false, drawing = false, startPoint, points, lastPath, lineData = [];
+
+  // Canvas
+  var svg = d3.select('#skribblrcanvasWrap').append('svg')
+      .attr('height', skribblrcanvasWrap.innerHeight())
+      .attr('width', skribblrcanvasWrap.innerWidth())
+      .style('height', skribblrcanvasWrap.innerHeight()+'px')
+      .style('width', skribblrcanvasWrap.innerWidth()+'px');
+
+  // Behaviors
+  var dragger = d3.behavior.drag()
+    .on('drag', handleDrag)
+    .on('dragend', function(d){
+      lineData = [];
+    });
+  svg.call(dragger);
+
+  // Finds the last element in the collection
+  d3.selection.prototype.last = function() {
+    var last = this.size() - 1;
+    return d3.select(this[0][last]);
+  };
+
+  function handleDrag() {
+    lineData.push(d3.mouse(this));
+
+    var lineFunction = d3.svg.line()
+      .x(function(d) { return d[0]; })
+      .y(function(d) { return d[1]; })
+      .interpolate('basis');
+
+    lastPath.attr('d', lineFunction(lineData));
+  }
+
+  svg.on('mousedown', function() {
+    svg.append('path')
+      .attr('fill', 'transparent')
+      .attr('stroke', 'black');
+
+    lastPath = svg.selectAll('path').last();
+  });
 
 })();

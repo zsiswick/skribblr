@@ -4,16 +4,14 @@
   "description": "A Chrome extension for annotating web pages",
   "main": "init.js",
   "dependencies": {
+    "d3": "3.5.9",
     "gulp": "^3.9.1",
-    "jshint": "^2.9.4",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "jshint": "^2.9.4"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0"
-  },
-  "scripts": {
-    "test": "test"
   },
   "repository": {
     "type": "git",
