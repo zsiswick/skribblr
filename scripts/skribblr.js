@@ -6,7 +6,7 @@
    */
 
   // Globals
-  var lastPath, lineData = [], skrbColor, skrbStrokeWidth = 2;
+  var lastPath, lineData = [], skrbColor = '#000', skrbStrokeWidth = 2;
 
   console.log('inserting svg into DOM...');
   var skribblrcanvasWrap = $('<div id="skribblrcanvasWrap"></div>');
@@ -26,10 +26,14 @@
       <a href="#skribblrCanvas" data-color="#f0f" style="background: #f0f;">&nbsp;</a>
       <a href="#skribblrCanvas" data-color="#000" style="background: #000;">&nbsp;</a>
       <a href="#skribblrCanvas" data-color="#fff" style="background: #fff;">&nbsp;</a>
+      <a href="#" style="background: #ccc"><i class="fa fa-pencil"></i></a>
+      <a href="#" style="background: #ccc"><i class="fa fa-circle-o"></i></a>
+      <a href="#" style="background: #ccc"><i class="fa fa-square-o"></i></a>
       <a href="#skribblrCanvas" data-size="2" style="background: #ccc">2</a>
       <a href="#skribblrCanvas" data-size="5" style="background: #ccc">5</a>
       <a href="#skribblrCanvas" data-size="10" style="background: #ccc">10</a>
       <a href="#skribblrCanvas" data-size="15" style="background: #ccc">15</a>
+      <a href="#" style="background: #ccc"><i class="fa fa-camera-retro"></i></a>
     </div></div>`);
 
   $('body').prepend(tools);
@@ -39,8 +43,6 @@
         var el = d3.select(this);
         skrbColor = el.attr('data-color') !== null ? el.attr('data-color') : skrbColor;
         skrbStrokeWidth = el.attr('data-size') !== null ? el.attr('data-size') : skrbStrokeWidth;
-        console.log('skrbStrokeWidth: ', skrbStrokeWidth);
-        console.log('skrbColor: ', skrbColor);
       });
 
   //TODO Keyboard events

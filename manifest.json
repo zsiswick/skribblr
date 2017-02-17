@@ -18,7 +18,10 @@
   },
   "content_scripts": [{
     "matches": ["https://*/*", "http://*/*"],
-    "css": ["styles/css/skribblr.css"],
+    "css": ["styles/css/skribblr.css", "styles/css/font-awesome.css"],
     "js": ["node_modules/jquery/dist/jquery.min.js", "node_modules/d3/d3.js"]
-  }]
+  }],
+  "web_accessible_resources":[
+    "styles/css/fonts/*"
+  ]
 }
