@@ -8,12 +8,14 @@
   .skrb-tools {
     width: 300px;
     padding: 6px;
-    background: white;
-    border: 1px solid black;
+    background: black;
+    display: flex;
 
     a {
       display: inline-block;
-      width: 15px;
+      flex: 1 0 auto;
+
+      text-align: center;
     }
   }
 }

@@ -1,5 +1,13 @@
 /*jshint esversion: 6 */
 (function () {
+
+  /**
+   * D3 Skribblr
+   */
+
+  // Globals
+  var lastPath, lineData = [], skrbColor, skrbStrokeWidth = 2;
+
   console.log('inserting svg into DOM...');
   var skribblrcanvasWrap = $('<div id="skribblrcanvasWrap"></div>');
   skribblrcanvasWrap.css({position:'absolute', left:'0px', top:'0px', width:'100%', height:'100%', 'z-index':'1000'});
@@ -10,7 +18,6 @@
 
   //TODO tools
   var tools = $(`<div class="skrb-tools-wrap"><div class="skrb-tools">
-      <a href="#skribblrCanvas" data-download="png" style="float: right">Download</a>
       <a href="#skribblrCanvas" data-color="#f00" style="background: #f00;">&nbsp;</a>
       <a href="#skribblrCanvas" data-color="#ff0" style="background: #ff0;">&nbsp;</a>
       <a href="#skribblrCanvas" data-color="#0f0" style="background: #0f0;">&nbsp;</a>
@@ -19,13 +26,22 @@
       <a href="#skribblrCanvas" data-color="#f0f" style="background: #f0f;">&nbsp;</a>
       <a href="#skribblrCanvas" data-color="#000" style="background: #000;">&nbsp;</a>
       <a href="#skribblrCanvas" data-color="#fff" style="background: #fff;">&nbsp;</a>
-      <a href="#skribblrCanvas" data-size="3" style="background: #ccc">3</a>
+      <a href="#skribblrCanvas" data-size="2" style="background: #ccc">2</a>
       <a href="#skribblrCanvas" data-size="5" style="background: #ccc">5</a>
       <a href="#skribblrCanvas" data-size="10" style="background: #ccc">10</a>
       <a href="#skribblrCanvas" data-size="15" style="background: #ccc">15</a>
     </div></div>`);
 
   $('body').prepend(tools);
+
+  var tools = d3.selectAll('.skrb-tools a')
+      .on('mousedown', function() {
+        var el = d3.select(this);
+        skrbColor = el.attr('data-color') !== null ? el.attr('data-color') : skrbColor;
+        skrbStrokeWidth = el.attr('data-size') !== null ? el.attr('data-size') : skrbStrokeWidth;
+        console.log('skrbStrokeWidth: ', skrbStrokeWidth);
+        console.log('skrbColor: ', skrbColor);
+      });
 
   //TODO Keyboard events
   // $(document).keypress(function(e) {
@@ -36,13 +52,6 @@
   //   }
   // });
 
-
-  /**
-   * D3 Skribble
-   */
-
-  // Globals
-  var dragging = false, drawing = false, startPoint, points, lastPath, lineData = [];
 
   // Canvas
   var svg = d3.select('#skribblrcanvasWrap').append('svg')
@@ -79,7 +88,8 @@
   svg.on('mousedown', function() {
     svg.append('path')
       .attr('fill', 'transparent')
-      .attr('stroke', 'black');
+      .attr('stroke', skrbColor)
+      .attr('stroke-width', skrbStrokeWidth);
 
     lastPath = svg.selectAll('path').last();
   });
